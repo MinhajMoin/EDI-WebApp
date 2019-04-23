@@ -4,7 +4,8 @@ app = Flask(__name__)
 @app.route("/")
 def main():
 ##    return "Hello to Our Web App"
-    return render_template('index.html')
+    a = render_template('index.html')
+    return "<p>Hello</p>"
 if __name__ == "__main__":
     app.run(host='0.0.0.0', threaded=True, port = 5000)
     

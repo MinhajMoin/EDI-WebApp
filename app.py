@@ -5,7 +5,7 @@ app = Flask(__name__)
 def main():
 ##    return "Hello to Our Web App"
     a = render_template('index.html')
-    return "<p>Hello</p>"
+    return a
 if __name__ == "__main__":
     app.run(threaded=True)
     

@@ -45,10 +45,10 @@ def main():
                      socketKeepAlive=True)
     db = client.get_default_database()
     data = db['Data']
-    print (db.collection_names())
+    return str(db.collection_names())
 ##    print (data)
 ##    data.insert_many(SEED_DATA)
-    return  render_template('index.html')
+##    return  render_template('index.html')
 ##---------------------------------------------------------##
 
 ##-------------POST Method---------------------------------##

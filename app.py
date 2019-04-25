@@ -32,7 +32,8 @@ def main():
 ##-------------GET Method----------------------------------##
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
-    for i in [record for record in data.find()]:
+    p = [record for record in get_db().find()]
+    for i in p:
         i.pop('_id')
     return jsonify(p)
 ##---------------------------------------------------------##

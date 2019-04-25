@@ -58,8 +58,9 @@ def create_task():
         'pulse': requests.json['pulse']
     }
     data = get_db()
+    print ("DATA: ", data)
     data.insert_many(log)
-    return jsonify({'task': task}), 201
+    return "<p>Done</p>", 201
 ##---------------------------------------------------------##
 
 if __name__ == "__main__":

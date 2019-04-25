@@ -4,20 +4,29 @@ import pymongo
 
 app = Flask(__name__)
 
-tasks = [
-    {
-        'id': 1,
-        'title': u'Buy groceries',
-        'description': u'Milk, Cheese, Pizza, Fruit, Tylenol', 
-        'done': False
-    },
-    {
-        'id': 2,
-        'title': u'Learn Python',
-        'description': u'Need to find a good Python tutorial on the web', 
-        'done': False
-    }
-]
+uri = 'mongodb://minhaj:minhaj123@ds129344.mlab.com:29344/edi-gs4-app'
+client = pymongo.MongoClient(uri,
+                 connectTimeoutMS=30000,
+                 socketTimeoutMS=None,
+                 socketKeepAlive=True)
+db = client.get_default_database()
+data = db['Data']
+
+##-------------Main Function-------------------------------##
+@app.route("/")
+def main():
+##    uri = 'mongodb://minhaj:minhaj123@ds129344.mlab.com:29344/edi-gs4-app'
+##    client = pymongo.MongoClient(uri,
+##                     connectTimeoutMS=30000,
+##                     socketTimeoutMS=None,
+##                     socketKeepAlive=True)
+##    global db = client.get_default_database()
+##    data = db['Data']
+##    return str(db.collection_names())
+##    print (data)
+##    data.insert_many(SEED_DATA)
+    return  render_template('index.html')
+##---------------------------------------------------------##
 
 ##-------------GET Method----------------------------------##
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
@@ -34,35 +43,20 @@ def get_task(task_id):
     return jsonify({'task': task[0]})
 ##---------------------------------------------------------##
 
-
-##-------------Main Function-------------------------------##
-@app.route("/")
-def main():
-    uri = 'mongodb://minhaj:minhaj123@ds129344.mlab.com:29344/edi-gs4-app'
-    client = pymongo.MongoClient(uri,
-                     connectTimeoutMS=30000,
-                     socketTimeoutMS=None,
-                     socketKeepAlive=True)
-    db = client.get_default_database()
-    data = db['Data']
-    return str(db.collection_names())
-##    print (data)
-##    data.insert_many(SEED_DATA)
-##    return  render_template('index.html')
-##---------------------------------------------------------##
-
 ##-------------POST Method---------------------------------##
 @app.route('/todo/api/v1.0/tasks', methods=['POST'])
 def create_task():
-    if not request.json or not 'title' in request.json:
+    if not request.json or not 'patient' in request.json:
         abort(400)
-    task = {
-        'id': tasks[-1]['id'] + 1,
-        'title': request.json['title'],
-        'description': request.json.get('description', ""),
-        'done': False
+    log = {
+        'patient': request.json['name'],
+        'time': request.json['title'],
+        'date': request.json.['date'],
+        'spO2': requests.json['sp02'],
+        'temp': requests.json['temp'],
+        'pulse': requests.json['pulse']
     }
-    tasks.append(task)
+    data.insert_many(log)
     return jsonify({'task': task}), 201
 ##---------------------------------------------------------##
 

@@ -32,34 +32,41 @@ def main():
 ##-------------GET Method----------------------------------##
 @app.route('/todo/api/v1.0/tasks', methods=['GET'])
 def get_tasks():
-    return jsonify({'tasks': tasks})
+    for i in [record for record in data.find()]:
+        i.pop('_id')
+    return jsonify(p)
 ##---------------------------------------------------------##
 
 ##-------------GET Method----------------------------------##
-@app.route('/todo/api/v1.0/tasks/<int:task_id>', methods=['GET'])
-def get_task(task_id):
-    task = [task for task in tasks if task['id'] == task_id]
-    if len(task) == 0:
-        abort(404)
-    return jsonify({'task': task[0]})
+@app.route('/todo/api/v1.0/tasks/<string:name>', methods=['GET'])
+def get_task(name):
+    data = get_db()
+    names = data.find({'name':name})
+##    if len(names) == 0:
+##        abort(404)
+##    for name in names:
+##    print (names[0])
+    p = [name for name in names]
+    for i in p:
+        i.pop('_id')
+    print(p)
+    return jsonify(p)
 ##---------------------------------------------------------##
 
 ##-------------POST Method---------------------------------##
-@app.route('/todo/api/v1.0/tasks', methods=['POST'])
+@app.route('/todo/api/v1.0/logger', methods=['POST'])
 def create_task():
-    if not request.json or not 'patient' in request.json:
+    if not request.json or not 'name' in request.json:
         abort(400)
     log = {
-        'patient': request.json['name'],
-        'time': request.json['title'],
+        'name': request.json['name'],
+        'time': request.json['time'],
         'date': request.json['date'],
-        'spO2': requests.json['sp02'],
-        'temp': requests.json['temp'],
-        'pulse': requests.json['pulse']
+        'spO2': request.json['sp02'],
+        'temp': request.json['temp'],
+        'pulse': request.json['pulse']
     }
-    data = get_db()
-    print ("DATA: ", data)
-    data.insert_many(log)
+    get_db().insert(log)
     return "<p>Done</p>", 201
 ##---------------------------------------------------------##
 

@@ -4,7 +4,7 @@ import pymongo
 
 app = Flask(__name__)
 
-def get_db()
+def get_db():
     uri = 'mongodb://minhaj:minhaj123@ds129344.mlab.com:29344/edi-gs4-app'
     client = pymongo.MongoClient(uri,
                      connectTimeoutMS=30000,
@@ -57,7 +57,8 @@ def create_task():
         'temp': requests.json['temp'],
         'pulse': requests.json['pulse']
     }
-    get_db().insert_many(log)
+    data = get_db()
+    data.insert_many(log)
     return jsonify({'task': task}), 201
 ##---------------------------------------------------------##
 

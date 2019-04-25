@@ -52,7 +52,7 @@ def create_task():
     log = {
         'patient': request.json['name'],
         'time': request.json['title'],
-        'date': request.json.['date'],
+        'date': request.json['date'],
         'spO2': requests.json['sp02'],
         'temp': requests.json['temp'],
         'pulse': requests.json['pulse']
